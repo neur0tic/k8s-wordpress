@@ -9,6 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
   ingressClassName: nginx
   rules:
@@ -22,16 +23,6 @@ spec:
             name: wordpress-svc
             port:
              name: http
-  - host: k8s-prod-1.encrypted.my
-    http:
-      paths:
-      - path: /blog
-        pathType: Prefix
-        backend:
-          service:
-            name: wordpress-svc
-            port:
-              name: http
   tls:
     - hosts:
       - k8s-prod-1.encrypted.my
