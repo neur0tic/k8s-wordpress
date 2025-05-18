@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: k8s-prod-1.encrypted.my
+  - host: blusmurf.net 
     http:
        paths:
         - path: /
@@ -25,5 +25,5 @@ spec:
              name: http
   tls:
     - hosts:
-      - k8s-prod-1.encrypted.my
+      - blusmurf.net
       secretName: letsencrypt-prod
