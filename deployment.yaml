@@ -41,6 +41,8 @@ spec:
                 secretKeyRef:
                   name: wordpress-auth
                   key: wp_db_password
+            - name: WORDPRESS_EXTRA_WP_CONFIG_CONTENT
+              value: "define('FS_METHOD', 'direct');"
           ports:
             - containerPort: 80
               name: wordpress
