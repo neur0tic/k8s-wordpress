@@ -4,16 +4,14 @@ metadata:
   name: wordpress-ingress
   namespace: wordpress
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.alpha.kubernetes.io/hostname: blusmurf.net
+    external-dns.alpha.kubernetes.io/target: a2fa3c50-694c-4928-aae4-011861843f64.cfargotunnel.com
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
   ingressClassName: nginx
   rules:
-  - host: blusmurf.net 
+  - host: blusmurf.net
     http:
        paths:
         - path: /
@@ -22,8 +20,4 @@ spec:
            service:
             name: wordpress-svc
             port:
-             name: http
-  tls:
-    - hosts:
-      - blusmurf.net
-      secretName: letsencrypt-prod
+              number: 80
