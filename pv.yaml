@@ -18,9 +18,16 @@ spec:
     fsType: ext4
     volumeHandle: pvc-da463b53-7b9d-40e0-9a47-6e1ae31eb046
     volumeAttributes:
-      numberOfReplicas: "2"
-      staleReplicaTimeout: "30"
+      backupTargetName: default
+      dataEngine: v1
+      dataLocality: disabled
+      disableRevisionCounter: "true"
+      fromBackup: ""
       fsType: ext4
+      numberOfReplicas: "3"
+      staleReplicaTimeout: "30"
+      storage.kubernetes.io/csiProvisionerIdentity: 1772295534452-1754-driver.longhorn.io
+      unmapMarkSnapChainRemoved: ignored
   claimRef:
     namespace: wordpress
     name: wordpress-pv-claim
