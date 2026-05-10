@@ -25,6 +25,7 @@ spec:
         app: wordpress
       annotations:
         vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-init-first: "true"
         vault.hashicorp.com/role: "wordpress"
         vault.hashicorp.com/agent-inject-secret-db-user: "kv/data/wordpress"
         vault.hashicorp.com/agent-inject-template-db-user: |
@@ -59,7 +60,7 @@ spec:
               name: wordpress
           livenessProbe:
             httpGet:
-              path: /wp-login.php
+              path: /readme.html
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -67,7 +68,7 @@ spec:
             failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /wp-login.php
+              path: /readme.html
               port: 80
             initialDelaySeconds: 15
             periodSeconds: 5
