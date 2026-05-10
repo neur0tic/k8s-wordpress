@@ -23,7 +23,17 @@ spec:
     metadata:
       labels:
         app: wordpress
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "wordpress"
+        vault.hashicorp.com/agent-inject-secret-db-user: "kv/data/wordpress"
+        vault.hashicorp.com/agent-inject-template-db-user: |
+          {{- with secret "kv/data/wordpress" -}}{{ .Data.data.username }}{{- end -}}
+        vault.hashicorp.com/agent-inject-secret-db-password: "kv/data/wordpress"
+        vault.hashicorp.com/agent-inject-template-db-password: |
+          {{- with secret "kv/data/wordpress" -}}{{ .Data.data.password }}{{- end -}}
     spec:
+      serviceAccountName: wordpress
       containers:
         - image: wordpress:6.8.1-apache
           name: wordpress
@@ -38,16 +48,10 @@ spec:
                 configMapKeyRef:
                   name: wordpress-configmap
                   key: wp_db_name
-            - name: WORDPRESS_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: wordpress-auth
-                  key: wp_db_username
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: wordpress-auth
-                  key: wp_db_password
+            - name: WORDPRESS_DB_USER_FILE
+              value: /vault/secrets/db-user
+            - name: WORDPRESS_DB_PASSWORD_FILE
+              value: /vault/secrets/db-password
             - name: WORDPRESS_CONFIG_EXTRA
               value: "define('FS_METHOD', 'direct');"
           ports:
