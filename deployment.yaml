@@ -33,11 +33,14 @@ spec:
         vault.hashicorp.com/agent-inject-secret-db-password: "kv/data/wordpress"
         vault.hashicorp.com/agent-inject-template-db-password: |
           {{- with secret "kv/data/wordpress" -}}{{ .Data.data.password }}{{- end -}}
+        vault.hashicorp.com/template-config-exit-on-retry-failure: "false"
     spec:
       serviceAccountName: wordpress
       containers:
-        - image: wordpress:6.8.1-apache
+        - image: wordpress:7.1.3-php8.2-apache
           name: wordpress
+          securityContext:
+            allowPrivilegeEscalation: false
           env:
             - name: WORDPRESS_DB_HOST
               valueFrom:
